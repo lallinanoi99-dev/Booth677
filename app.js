@@ -537,7 +537,7 @@
           h('p', { class: 'note', style: 'margin:4px 0 0' }, Strip.FRAMES[booth.frame].blurb)),
         h('p', { class: 'note' }, booth.mode === 'camera'
           ? 'Four shots with a 3 · 2 · 1 countdown. The camera only turns on after you press Next.'
-          : 'Choose 1–4 photos (JPG, PNG or HEIC, up to 10 MB each). They stay on your device.'),
+          : 'Choose 1–4 photos (JPG, PNG, HEIC or WebP, up to 10 MB each). They stay on your device.'),
         h('div', { class: 'row end' }, h('button', { class: 'btn round green', type: 'button', onclick: () => go('shoot') }, 'Next'))));
   }
 
@@ -696,8 +696,8 @@
     const list = [...files];
     if (list.length > room) booth.uploadErrors.push(room ? `Only ${room} more photo${room > 1 ? 's' : ''} fit — the rest were skipped.` : 'All 4 slots are full. Remove one first.');
     for (const f of list.slice(0, Math.max(0, room))) {
-      const okType = /^image\/(jpeg|png)$/i.test(f.type) || isHeic(f) || /\.(jpe?g|png)$/i.test(f.name);
-      if (!okType) { booth.uploadErrors.push(`${f.name}: please use JPG, PNG or HEIC.`); continue; }
+      const okType = /^image\/(jpeg|png|webp)$/i.test(f.type) || isHeic(f) || /\.(jpe?g|png|webp)$/i.test(f.name);
+      if (!okType) { booth.uploadErrors.push(`${f.name}: please use JPG, PNG, HEIC or WebP.`); continue; }
       if (f.size > MAX_UPLOAD) { booth.uploadErrors.push(`${f.name}: that’s over 10 MB.`); continue; }
       try {
         let blob = f;
@@ -723,13 +723,15 @@
     renderApp();
   }
   function viewUpload() {
-    const input = h('input', { type: 'file', accept: 'image/jpeg,image/png,image/heic,image/heif,.heic,.heif', multiple: true, hidden: true, onchange: (e) => addFiles(e.target.files) });
-    const drop = h('div', {
-      class: 'drop', role: 'button', tabindex: '0', 'aria-label': 'Choose photos to upload',
-      onclick: () => input.click(), onkeydown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } },
+    // A native <label> opens the picker in every browser; programmatic input.click() on a hidden
+    // input is unreliable in some desktop browsers.
+    const input = h('input', { type: 'file', id: 'photoInput', class: 'sr-only', accept: 'image/*,.heic,.heif', multiple: true,
+      onchange: (e) => { const files = [...e.target.files]; e.target.value = ''; addFiles(files); } });
+    const drop = h('label', {
+      class: 'drop',
       ondragover: (e) => { e.preventDefault(); drop.classList.add('over'); }, ondragleave: () => drop.classList.remove('over'),
       ondrop: (e) => { e.preventDefault(); drop.classList.remove('over'); if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files); },
-    }, h('b', {}, 'Drop photos here'), 'or tap to choose · JPG, PNG, HEIC · ≤ 10 MB', input);
+    }, input, h('b', {}, 'Drop photos here'), 'or click to choose · JPG, PNG, HEIC, WebP · ≤ 10 MB');
     let dragFrom = null;
     const ratio = slotRatio();
     const tiles = h('div', { class: 'tiles' }, [0, 1, 2, 3].map((i) => {
@@ -743,13 +745,14 @@
       tile.addEventListener('dragleave', () => tile.classList.remove('over'));
       tile.addEventListener('drop', (e) => { e.preventDefault(); tile.classList.remove('over'); if (dragFrom != null) moveUpload(dragFrom, i); dragFrom = null; });
       tile.append(
-        h('div', { class: 'ph' }, p ? thumb(p, ratio, 220) : String(i + 1)),
+        p ? h('div', { class: 'ph' }, thumb(p, ratio, 220))
+          : h('label', { class: 'ph add', for: 'photoInput', title: 'Add photos' }, h('span', { 'aria-hidden': 'true' }, '+'), h('span', { class: 'sr-only' }, `Add a photo to slot ${i + 1}`)),
         p ? h('div', { class: 'acts' },
           h('button', { type: 'button', 'aria-label': `Move photo ${i + 1} earlier`, disabled: i === 0, onclick: () => moveUpload(i, i - 1) }, '◀'),
           h('button', { type: 'button', 'aria-label': `Crop photo ${i + 1}`, onclick: () => openCrop(i) }, '✂'),
           h('button', { type: 'button', 'aria-label': `Remove photo ${i + 1}`, onclick: () => { booth.uploads.splice(i, 1); renderApp(); } }, '✕'),
           h('button', { type: 'button', 'aria-label': `Move photo ${i + 1} later`, disabled: i >= booth.uploads.length - 1, onclick: () => moveUpload(i, i + 1) }, '▶'))
-          : h('div', { class: 'note', style: 'text-align:center;font-size:12px' }, 'empty'));
+          : h('div', { class: 'note', style: 'text-align:center;font-size:12px' }, `slot ${i + 1}`));
       return tile;
     }));
     const n = booth.uploads.length;
@@ -1145,13 +1148,13 @@
   // "Prove it's the original" — re-hash a PNG and look it up (optionally against one strip)
   function proveBox(strip) {
     const result = h('div', { 'aria-live': 'polite' });
-    const input = h('input', { type: 'file', accept: 'image/png', hidden: true, onchange: (e) => check(e.target.files[0]) });
-    const drop = h('div', {
-      class: 'prove-drop', role: 'button', tabindex: '0', onclick: () => input.click(),
-      onkeydown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } },
+    const input = h('input', { type: 'file', class: 'sr-only', accept: 'image/png',
+      onchange: (e) => { const f = e.target.files[0]; e.target.value = ''; check(f); } });
+    const drop = h('label', {
+      class: 'prove-drop',
       ondragover: (e) => { e.preventDefault(); drop.classList.add('over'); }, ondragleave: () => drop.classList.remove('over'),
       ondrop: (e) => { e.preventDefault(); drop.classList.remove('over'); check(e.dataTransfer.files[0]); },
-    }, h('b', { style: 'font:700 22px var(--hand);display:block' }, strip ? 'Prove it’s the original' : 'Prove a strip is original'), 'Drop the PNG you downloaded (or tap to choose). It’s checked in your browser — nothing is uploaded.', input);
+    }, input, h('b', { style: 'font:700 22px var(--hand);display:block' }, strip ? 'Prove it’s the original' : 'Prove a strip is original'), 'Drop the PNG you downloaded (or click to choose). It’s checked in your browser — nothing is uploaded.');
     async function check(file) {
       if (!file) return;
       result.replaceChildren(h('p', { class: 'note' }, 'Checking the fingerprint…'));

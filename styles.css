@@ -35,6 +35,7 @@ button { font: inherit; color: inherit; }
 h1, h2, h3 { margin: 0; line-height: 1.1; }
 [hidden] { display: none !important; }
 .mono { font-family: var(--mono); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .center { text-align: center; }
 .muted { color: var(--muted); }
 .skip { position: absolute; left: -999px; top: 8px; z-index: 100; background: var(--cream); padding: 8px 12px; border: 2px solid var(--ink); }
@@ -233,8 +234,9 @@ input[type=text], input[type=search] { font: 15px var(--type); border: 2px solid
 .mini-strip .retake { position: absolute; right: 3px; bottom: 3px; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--ink); background: var(--cream); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; }
 
 /* upload */
-.drop { width: 100%; border: 3px dashed var(--cream); border-radius: 14px; padding: 22px; text-align: center; color: var(--cream); cursor: pointer; font: 15px/1.5 var(--type); }
+.drop { display: block; position: relative; width: 100%; border: 3px dashed var(--cream); border-radius: 14px; padding: 22px; text-align: center; color: var(--cream); cursor: pointer; font: 15px/1.5 var(--type); }
 .drop.over { background: rgba(255,255,255,.12); }
+.drop:focus-within, .prove-drop:focus-within { outline: 3px solid var(--red); outline-offset: 3px; }
 .drop b { font: 700 24px var(--hand); display: block; }
 .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; width: 100%; }
 @media (max-width: 520px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -244,6 +246,8 @@ input[type=text], input[type=search] { font: 15px var(--type); border: 2px solid
 .tile.over { outline: 3px dashed var(--red); }
 .tile .ph { aspect-ratio: 1; border-radius: 6px; overflow: hidden; background: #eee5da; display: grid; place-items: center; color: #9a8f84; font: 700 20px var(--hand); }
 .tile .ph canvas { width: 100%; height: 100%; object-fit: cover; }
+.tile .ph.add { cursor: pointer; font-size: 40px; border: 2px dashed #b9aea2; }
+.tile .ph.add:hover { background: #e6dccf; color: var(--ink); }
 .tile .acts { display: flex; justify-content: space-between; gap: 4px; }
 .tile .acts button { flex: 1; min-height: 30px; border: 2px solid var(--ink); border-radius: 8px; background: #fff; cursor: pointer; font: 700 12px var(--type); padding: 0; }
 .tile .acts button:disabled { opacity: .3; cursor: not-allowed; }
@@ -363,7 +367,7 @@ input[type=range] { width: 100%; accent-color: var(--red); }
 .facts dd { margin: 0; word-break: break-all; }
 .proof-card { position: relative; overflow: hidden; }
 .proof-card .lock { width: 90px; float: right; margin: 0 0 8px 12px; }
-.prove-drop { border: 3px dashed var(--ink); border-radius: 14px; padding: 18px; text-align: center; cursor: pointer; background: #fff; }
+.prove-drop { display: block; position: relative; border: 3px dashed var(--ink); border-radius: 14px; padding: 18px; text-align: center; cursor: pointer; background: #fff; }
 .prove-drop.over { background: #FFF1D6; }
 .result { border: 2px solid var(--ink); border-radius: 12px; padding: 12px 14px; font-weight: 500; }
 .result.match { background: #DDEFD9; }
