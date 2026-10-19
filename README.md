@@ -8,7 +8,7 @@ A cute, hand-drawn analog photo booth in your browser. Scroll inside, strike fou
 
 | | |
 |---|---|
-| Live site | https://lallinanoi99-dev.github.io/Booth677/ |
+| Live site | https://booth677.my.id (also https://lallinanoi99-dev.github.io/Booth677/) |
 | Upload Worker | _not deployed yet_ |
 | Contract (BOT Chain testnet, chain ID 968) | _not deployed yet_ |
 | Contract (BOT Chain mainnet, chain ID 677) | [`0xb64ABCa2Ca323Ef1D36c8FcA608fb0B1bF971E04`](https://scan.botchain.ai/address/0xb64ABCa2Ca323Ef1D36c8FcA608fb0B1bF971E04) |

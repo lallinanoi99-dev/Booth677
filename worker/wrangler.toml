@@ -5,7 +5,7 @@ compatibility_date = "2026-09-01"
 [vars]
 # Comma-separated list of site origins allowed to call POST /upload (no trailing slash).
 # Replace with your live domain(s); keep localhost only while developing.
-ALLOWED_ORIGINS = "http://localhost:4610"
+ALLOWED_ORIGINS = "https://booth677.my.id,http://localhost:4610"
 
 # The Pinata JWT is a secret, never a var:
 #   npx wrangler secret put PINATA_JWT
