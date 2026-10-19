@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploy Booth 677</title>
+<meta name="robots" content="noindex">
+<style>
+  body { margin: 0; font: 15px/1.55 "DM Mono", ui-monospace, monospace; color: #1E1E1E; background: #DCEBF3; }
+  main { max-width: 680px; margin: 0 auto; padding: 48px 20px; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  p, li { color: #3d3a37; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+  button { font: inherit; font-size: 13px; font-weight: 700; text-transform: uppercase; min-height: 48px; padding: 0 20px; border: 2px solid #1E1E1E; border-radius: 999px; background: #FFF9F0; color: #1E1E1E; cursor: pointer; box-shadow: 3px 3px 0 #1E1E1E; }
+  button.solid { background: #4F8A63; color: #FFF9F0; }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  #log { border: 2px solid #1E1E1E; border-radius: 14px; background: #FFF9F0; padding: 16px; min-height: 64px; white-space: pre-wrap; word-break: break-word; margin-top: 16px; }
+  #log a { color: inherit; }
+  code { background: #FFF9F0; padding: 2px 5px; font-size: 13px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Deploy Booth 677</h1>
+  <p>Deploys <code>contracts/Booth677.sol</code> (Solidity 0.8.20, optimizer 200 runs, EVM <code>paris</code>) from your MetaMask account. No constructor arguments, no admin, no tokens. Try testnet first, then mainnet.</p>
+  <div class="row">
+    <button type="button" data-net="testnet">Deploy to BOT Chain testnet (968)</button>
+    <button type="button" class="solid" data-net="mainnet">Deploy to BOT Chain mainnet (677)</button>
+  </div>
+  <div id="log">Ready. Each button asks you to confirm one transaction in MetaMask.</div>
+  <ol>
+    <li>After deploying, open the app on this same localhost address. It picks up the new address automatically (use <code>?net=testnet</code> for the testnet one).</li>
+    <li>For the live site, paste the address into <code>contract: ''</code> for that network in <code>CONFIG.networks</code> at the top of <code>app.js</code>, and update the README. The mainnet address also feeds the footer and the explorer link.</li>
+  </ol>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.5/ethers.umd.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  const NETS = {
+    testnet: { chainId: 968, name: 'BOT Chain Testnet', rpc: 'https://rpc.bohr.life', explorer: 'https://scan.bohr.life' },
+    mainnet: { chainId: 677, name: 'BOT Chain', rpc: 'https://rpc.botchain.ai', explorer: 'https://scan.botchain.ai' },
+  };
+  const log = document.getElementById('log');
+  const buttons = [...document.querySelectorAll('button[data-net]')];
+  const say = (...nodes) => log.replaceChildren(...nodes);
+  const link = (href, text) => Object.assign(document.createElement('a'), { href, textContent: text, target: '_blank', rel: 'noopener' });
+
+  async function switchTo(net) {
+    const chainId = '0x' + net.chainId.toString(16);
+    try {
+      await ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId }] });
+    } catch (e) {
+      const unknownChain = e.code === 4902 || e?.data?.originalError?.code === 4902 || /unrecognized chain/i.test(e.message || '');
+      if (!unknownChain) throw e;
+      await ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{ chainId, chainName: net.name, nativeCurrency: { name: 'BOT', symbol: 'BOT', decimals: 18 }, rpcUrls: [net.rpc], blockExplorerUrls: [net.explorer] }],
+      });
+    }
+  }
+
+  async function deploy(key) {
+    const net = NETS[key];
+    if (!window.ethereum) return say('MetaMask was not found. Install it from ', link('https://metamask.io/download/', 'metamask.io'), ' and reload.');
+    buttons.forEach((b) => { b.disabled = true; });
+    try {
+      say('Loading compiled contract…');
+      const artifact = await (await fetch('build/Booth677.json')).json();
+      say('Connecting to MetaMask…');
+      await ethereum.request({ method: 'eth_requestAccounts' });
+      await switchTo(net);
+      const signer = await new ethers.BrowserProvider(ethereum).getSigner();
+      if (Number((await signer.provider.getNetwork()).chainId) !== net.chainId) throw new Error(`MetaMask is not on ${net.name} (${net.chainId}). Nothing was deployed.`);
+      say(`Confirm the deployment to ${net.name} in MetaMask…`);
+      const contract = await new ethers.ContractFactory(artifact.abi, artifact.bytecode, signer).deploy();
+      const tx = contract.deploymentTransaction();
+      say('Waiting for confirmation… ', link(`${net.explorer}/tx/${tx.hash}`, 'view transaction'));
+      const receipt = await tx.wait();
+      const address = await contract.getAddress();
+      try { localStorage.setItem('booth677.contract.' + net.chainId, address); } catch { /* ignore */ }
+      say(`Booth 677 deployed to ${net.name}:\n`, link(`${net.explorer}/address/${address}`, address),
+        `\nBlock: ${receipt.blockNumber}\n\nNext: `, link(key === 'testnet' ? './?net=testnet' : './', 'open the booth'), ' and keep a strip.');
+    } catch (e) {
+      console.error(e);
+      const cancelled = e.code === 4001 || e.code === 'ACTION_REJECTED';
+      say(cancelled ? 'Cancelled. Nothing was deployed.' : `Deployment failed: ${e.shortMessage || e.message}`);
+    } finally {
+      buttons.forEach((b) => { b.disabled = false; });
+    }
+  }
+
+  buttons.forEach((b) => b.addEventListener('click', () => deploy(b.dataset.net)));
+})();
+</script>
+</body>
+</html>

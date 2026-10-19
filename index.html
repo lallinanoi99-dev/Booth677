@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Booth 677 — a cute analog photo booth on BOT Chain</title>
+<meta name="description" content="Step inside a hand-drawn photo booth in your browser: strike four poses (or upload photos), get a retro photo strip, and keep it forever on BOT Chain.">
+<meta name="theme-color" content="#DCEBF3">
+<meta property="og:title" content="Booth 677">
+<meta property="og:description" content="Strike four poses, get a retro photo strip, keep it forever on BOT Chain.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='10' y='14' width='44' height='46' rx='5' fill='%23E8C9C6' stroke='%231E1E1E' stroke-width='4'/%3E%3Crect x='14' y='4' width='36' height='14' rx='4' fill='%23D9473A' stroke='%231E1E1E' stroke-width='4'/%3E%3Crect x='16' y='24' width='18' height='30' fill='%237F96B8' stroke='%231E1E1E' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=DM+Mono:wght@400;500&family=Gaegu:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<a class="skip" href="#booth">Skip to the booth</a>
+
+<header class="nav" id="nav">
+  <a class="brand" href="./" aria-label="Booth 677 home">
+    <svg viewBox="0 0 40 40" width="30" height="30" aria-hidden="true"><rect x="6" y="10" width="28" height="27" rx="3" fill="#E8C9C6" stroke="#1E1E1E" stroke-width="2.5"/><rect x="9" y="3" width="22" height="8" rx="2.5" fill="#D9473A" stroke="#1E1E1E" stroke-width="2.5"/><rect x="9" y="15" width="12" height="18" fill="#7F96B8" stroke="#1E1E1E" stroke-width="2"/><rect x="24" y="27" width="7" height="3" fill="#1E1E1E"/></svg>
+    <span>Booth 677</span>
+  </a>
+  <nav class="links" aria-label="Sections">
+    <a href="#how">How</a>
+    <a href="#frames">Frames</a>
+    <a href="#looks">Looks</a>
+    <a href="#wall">Wall</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <div class="wallet" id="wallet"></div>
+</header>
+
+<main id="home">
+  <!-- 1 · Scroll into the booth -->
+  <section class="hero" id="hero" aria-label="Step inside the booth">
+    <div class="sky" aria-hidden="true">
+      <span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span><span class="cloud c4"></span>
+    </div>
+    <div class="hero-stage" id="stage">
+      <svg class="booth" id="boothArt" viewBox="0 0 600 800" role="img" aria-label="A pink photo booth with a red PHOTO 677 sign and a blue curtain">
+        <ellipse cx="300" cy="768" rx="240" ry="18" fill="rgba(30,30,30,.13)"/>
+        <g filter="url(#wobble)" stroke="#1E1E1E" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+          <!-- sign -->
+          <rect x="205" y="112" width="14" height="22" fill="#1E1E1E"/>
+          <rect x="381" y="112" width="14" height="22" fill="#1E1E1E"/>
+          <rect x="140" y="30" width="320" height="88" rx="18" fill="#D9473A"/>
+          <g class="bulbs" fill="#FFF3C4" stroke-width="2.5">
+            <circle cx="160" cy="48" r="5"/><circle cx="200" cy="44" r="5"/><circle cx="240" cy="42" r="5"/><circle cx="280" cy="41" r="5"/><circle cx="320" cy="41" r="5"/><circle cx="360" cy="42" r="5"/><circle cx="400" cy="44" r="5"/><circle cx="440" cy="48" r="5"/>
+            <circle cx="160" cy="100" r="5"/><circle cx="200" cy="104" r="5"/><circle cx="240" cy="106" r="5"/><circle cx="280" cy="107" r="5"/><circle cx="320" cy="107" r="5"/><circle cx="360" cy="106" r="5"/><circle cx="400" cy="104" r="5"/><circle cx="440" cy="100" r="5"/>
+          </g>
+          <text x="300" y="88" text-anchor="middle" class="sign-text" fill="#FFF9F0" stroke="none">PHOTO · 677</text>
+          <!-- roof + body -->
+          <rect x="70" y="130" width="460" height="46" rx="14" fill="#D9B0AB"/>
+          <rect x="88" y="172" width="424" height="560" rx="10" fill="#E8C9C6"/>
+          <!-- inside -->
+          <rect x="116" y="204" width="232" height="490" fill="#F1DCD3"/>
+          <rect x="116" y="204" width="232" height="18" fill="#E4C6BB" stroke="none"/>
+          <g class="stool">
+            <rect x="196" y="610" width="10" height="84" fill="#9B7A2E"/>
+            <rect x="258" y="610" width="10" height="84" fill="#9B7A2E"/>
+            <ellipse cx="232" cy="606" rx="58" ry="16" fill="#C9A24A"/>
+          </g>
+          <!-- curtain rod + curtain halves -->
+          <g id="curtainL" class="curtain">
+            <path d="M116 212 H234 V598 Q219 610 204 598 Q189 610 174 598 Q159 610 145 598 Q130 610 116 598 Z" fill="#7F96B8"/>
+            <path d="M145 222 Q151 400 145 596 M174 222 Q180 400 174 596 M204 222 Q210 400 204 596" fill="none" stroke="#5F769A" stroke-width="3"/>
+          </g>
+          <g id="curtainR" class="curtain">
+            <path d="M232 212 H348 V598 Q333 610 318 598 Q303 610 290 598 Q275 610 261 598 Q246 610 232 598 Z" fill="#7F96B8"/>
+            <path d="M261 222 Q267 400 261 596 M290 222 Q296 400 290 596 M318 222 Q324 400 318 596" fill="none" stroke="#5F769A" stroke-width="3"/>
+          </g>
+          <line x1="106" y1="208" x2="358" y2="208" stroke-width="7"/>
+          <!-- side poster with frame examples -->
+          <rect x="370" y="204" width="118" height="176" rx="6" fill="#FFF9F0"/>
+          <text x="429" y="228" text-anchor="middle" class="tiny-label" fill="#D9473A" stroke="none">FRAMES</text>
+          <g stroke-width="2.5">
+            <rect x="382" y="240" width="26" height="124" fill="#fff"/>
+            <rect x="386" y="245" width="18" height="24" fill="#F6C9C3"/><rect x="386" y="274" width="18" height="24" fill="#BFD8E8"/><rect x="386" y="303" width="18" height="24" fill="#F3E2A9"/><rect x="386" y="332" width="18" height="24" fill="#C9E2C6"/>
+            <rect x="416" y="240" width="62" height="62" fill="#E8C9C6"/>
+            <rect x="421" y="245" width="24" height="24" fill="#BFD8E8"/><rect x="449" y="245" width="24" height="24" fill="#F6C9C3"/><rect x="421" y="273" width="24" height="24" fill="#E3D0F0"/><rect x="449" y="273" width="24" height="24" fill="#F3E2A9"/>
+            <rect x="420" y="312" width="54" height="56" fill="#fff" transform="rotate(4 447 340)"/>
+            <rect x="426" y="317" width="42" height="36" fill="#F8D7B5" transform="rotate(4 447 340)"/>
+          </g>
+          <!-- coin slot -->
+          <rect x="398" y="404" width="62" height="70" rx="8" fill="#FFF9F0"/>
+          <rect x="424" y="416" width="10" height="30" rx="3" fill="#1E1E1E"/>
+          <text x="429" y="464" text-anchor="middle" class="tiny-label" fill="#1E1E1E" stroke="none">COIN</text>
+          <!-- pickup slot -->
+          <text x="429" y="512" text-anchor="middle" class="tiny-label" fill="#1E1E1E" stroke="none">↓ PICK UP</text>
+          <rect x="378" y="522" width="102" height="34" rx="6" fill="#3A3338"/>
+          <g class="peek"><rect x="400" y="540" width="58" height="56" fill="#FFF9F0" stroke-width="3"/><rect x="408" y="548" width="42" height="30" fill="#BFD8E8" stroke-width="2.5"/></g>
+          <rect x="378" y="522" width="102" height="18" rx="6" fill="#3A3338"/>
+          <!-- base -->
+          <rect x="80" y="726" width="440" height="30" rx="8" fill="#D4AEA9"/>
+          <circle cx="130" cy="760" r="8" fill="#1E1E1E"/><circle cx="470" cy="760" r="8" fill="#1E1E1E"/>
+        </g>
+        <!-- stickers -->
+        <g stroke="#1E1E1E" stroke-width="3" stroke-linejoin="round">
+          <path d="M512 214 l8 16 18 3 -13 12 3 18 -16-8 -16 8 3-18 -13-12 18-3z" fill="#C9A24A"/>
+          <path d="M60 330 l6 12 13 2 -9 9 2 13 -12-6 -12 6 2-13 -9-9 13-2z" fill="#FFF3C4"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-copy" id="heroCopy">
+      <h1 class="title">Booth <span>677</span></h1>
+      <p class="tag">Strike four poses, get a retro strip, keep it forever on BOT Chain.</p>
+      <p class="scroll-hint" aria-hidden="true">Scroll to step inside ↓</p>
+      <button class="btn round green enter" type="button" id="enterBtn" aria-label="Enter the booth">Enter</button>
+    </div>
+    <div class="hero-inside" id="heroInside" aria-hidden="true"><p>you’re inside ✦</p></div>
+  </section>
+
+  <!-- The booth app -->
+  <section class="inside" id="booth" aria-label="The photo booth">
+    <div class="booth-app" id="app"></div>
+  </section>
+
+  <!-- 2 · How it works -->
+  <section class="sec" id="how">
+    <h2 class="sec-title">How it works</h2>
+    <ol class="steps">
+      <li class="card wob">
+        <svg viewBox="0 0 120 100" aria-hidden="true"><rect x="22" y="12" width="76" height="80" rx="6" fill="#E8C9C6" stroke="#1E1E1E" stroke-width="3"/><rect x="30" y="22" width="34" height="62" fill="#F1DCD3" stroke="#1E1E1E" stroke-width="3"/><path d="M30 22h12v62H30z" fill="#7F96B8" stroke="#1E1E1E" stroke-width="3"/><path d="M80 52l12-6v12z" fill="#D9473A" stroke="#1E1E1E" stroke-width="3"/></svg>
+        <span class="num">①</span><h3>Step inside</h3><p>Scroll in or tap Enter. No sign-up, no wallet needed.</p>
+      </li>
+      <li class="card wob">
+        <svg viewBox="0 0 120 100" aria-hidden="true"><rect x="16" y="26" width="88" height="60" rx="10" fill="#FFF9F0" stroke="#1E1E1E" stroke-width="3"/><circle cx="60" cy="56" r="18" fill="#7F96B8" stroke="#1E1E1E" stroke-width="3"/><circle cx="60" cy="56" r="8" fill="#1E1E1E"/><rect x="26" y="18" width="22" height="10" rx="3" fill="#D9473A" stroke="#1E1E1E" stroke-width="3"/><text x="92" y="22" font-family="Gaegu" font-weight="700" font-size="18">3·2·1</text></svg>
+        <span class="num">②</span><h3>Strike 4 poses</h3><p>Countdown, flash, click — or upload 1 to 4 photos.</p>
+      </li>
+      <li class="card wob">
+        <svg viewBox="0 0 120 100" aria-hidden="true"><rect x="40" y="8" width="40" height="86" fill="#fff" stroke="#1E1E1E" stroke-width="3"/><rect x="46" y="14" width="28" height="16" fill="#F6C9C3"/><rect x="46" y="34" width="28" height="16" fill="#BFD8E8"/><rect x="46" y="54" width="28" height="16" fill="#F3E2A9"/><rect x="46" y="74" width="28" height="14" fill="#C9E2C6"/><circle cx="22" cy="30" r="9" fill="#9A9A9A" stroke="#1E1E1E" stroke-width="3"/><circle cx="98" cy="42" r="9" fill="#E7A65F" stroke="#1E1E1E" stroke-width="3"/><circle cx="22" cy="66" r="9" fill="#B98B5E" stroke="#1E1E1E" stroke-width="3"/></svg>
+        <span class="num">③</span><h3>Develop your strip</h3><p>Pick a film look, add grain, a light leak, a date stamp.</p>
+      </li>
+      <li class="card wob">
+        <svg viewBox="0 0 120 100" aria-hidden="true"><rect x="20" y="14" width="80" height="22" rx="5" fill="#3A3338" stroke="#1E1E1E" stroke-width="3"/><rect x="42" y="26" width="36" height="62" fill="#FFF9F0" stroke="#1E1E1E" stroke-width="3"/><rect x="48" y="40" width="24" height="18" fill="#BFD8E8"/><rect x="48" y="62" width="24" height="18" fill="#F6C9C3"/><path d="M88 66a10 10 0 1 1 16 0l-8 10z" fill="#4F8A63" stroke="#1E1E1E" stroke-width="3"/></svg>
+        <span class="num">④</span><h3>Pick it up &amp; keep it forever</h3><p>Download the PNG free, or stamp it on BOT Chain.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 3 · Pick your frame -->
+  <section class="sec" id="frames">
+    <h2 class="sec-title">Pick your frame</h2>
+    <div class="showcase" id="frameShowcase"></div>
+  </section>
+
+  <!-- 4 · Film looks -->
+  <section class="sec" id="looks">
+    <h2 class="sec-title">Film looks</h2>
+    <p class="sec-sub">One photo, six films. Tap a print to compare.</p>
+    <div class="looks" id="looksDemo"></div>
+  </section>
+
+  <!-- 5 · The Strip Wall -->
+  <section class="sec" id="wall">
+    <h2 class="sec-title">The Strip Wall</h2>
+    <p class="sec-sub">Public strips, pinned forever. One ❤ per wallet.</p>
+    <div class="cork" id="wallPreview"></div>
+    <p class="center"><a class="btn green" href="?wall" id="wallMore">See the whole wall</a></p>
+  </section>
+
+  <!-- 6 · Keep it forever -->
+  <section class="sec" id="keep">
+    <h2 class="sec-title">Keep it forever <small>on BOT Chain</small></h2>
+    <div class="keep-cards">
+      <article class="card wob keep-card">
+        <svg viewBox="0 0 160 120" aria-hidden="true"><rect x="30" y="52" width="70" height="56" rx="8" fill="#C9A24A" stroke="#1E1E1E" stroke-width="3.5"/><path d="M44 52V38a21 21 0 0 1 42 0v14" fill="none" stroke="#1E1E1E" stroke-width="7"/><path d="M44 52V38a21 21 0 0 1 42 0v14" fill="none" stroke="#FFF9F0" stroke-width="2.5"/><circle cx="65" cy="76" r="7" fill="#1E1E1E"/><rect x="62" y="78" width="6" height="16" rx="2" fill="#1E1E1E"/><text x="108" y="60" font-family="DM Mono" font-size="11">0x9f3c…</text><text x="108" y="76" font-family="DM Mono" font-size="11">a17e…</text></svg>
+        <h3>Private keepsake <span class="pill-tag">default</span></h3>
+        <ul>
+          <li>Only the strip’s <b>fingerprint</b> (SHA-256) and frame/film info go on-chain.</li>
+          <li>The photo stays on your device.</li>
+          <li>Later, drop the PNG back in to prove it’s the original.</li>
+        </ul>
+      </article>
+      <article class="card wob keep-card">
+        <svg viewBox="0 0 160 120" aria-hidden="true"><rect x="10" y="10" width="140" height="100" rx="6" fill="#C9A06A" stroke="#1E1E1E" stroke-width="3.5"/><g transform="rotate(-6 60 60)"><rect x="36" y="26" width="48" height="66" fill="#fff" stroke="#1E1E1E" stroke-width="3"/><rect x="42" y="32" width="36" height="20" fill="#BFD8E8"/><rect x="42" y="56" width="36" height="20" fill="#F6C9C3"/></g><circle cx="60" cy="24" r="5" fill="#D9473A" stroke="#1E1E1E" stroke-width="2.5"/><g transform="rotate(5 112 64)"><rect x="94" y="36" width="40" height="52" fill="#fff" stroke="#1E1E1E" stroke-width="3"/><rect x="99" y="41" width="30" height="30" fill="#F3E2A9"/></g><circle cx="114" cy="34" r="5" fill="#4F8A63" stroke="#1E1E1E" stroke-width="2.5"/></svg>
+        <h3>Public strip</h3>
+        <ul>
+          <li>Your strip is uploaded to <b>IPFS</b> and pinned on the Strip Wall.</li>
+          <li><b>Permanent:</b> it can never be edited or deleted.</li>
+          <li>Only post photos of people who said yes.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- 7 · FAQ -->
+  <section class="sec" id="faq">
+    <h2 class="sec-title">FAQ</h2>
+    <div class="faq">
+      <details class="card wob"><summary>Do you store my photos?</summary><p>No. Your camera and photos stay in your browser. Nothing is uploaded unless you choose <b>Public</b> for a strip — then only that finished strip goes to IPFS, with location data stripped.</p></details>
+      <details class="card wob"><summary>Can I delete a public strip?</summary><p>No — public strips are permanent on IPFS and BOT Chain, and nobody (not even us) can remove them. Only post what you’re sure about, and only photos of people who said yes.</p></details>
+      <details class="card wob"><summary>Does it work on my phone?</summary><p>Yes. The booth uses your front camera on phones (it needs HTTPS, which the live site has). You can also upload photos from your gallery — JPG, PNG or HEIC.</p></details>
+      <details class="card wob"><summary>Do I need a wallet to use the booth?</summary><p>No. Taking photos, developing and downloading your strip are free and need no wallet. You only need MetaMask on BOT Chain to keep a strip on-chain or to ❤ strips on the wall.</p></details>
+      <details class="card wob"><summary>What’s a fingerprint?</summary><p>A SHA-256 hash of your strip’s PNG. It proves the exact file existed when you kept it, without revealing the photo. Even a tiny edit changes it, so keep the original PNG you downloaded.</p></details>
+    </div>
+  </section>
+</main>
+
+<!-- Wall / strip pages (?wall, ?strip=12) render here instead of #home -->
+<main id="page" class="page" hidden></main>
+
+<footer class="foot" id="footer">
+  <div class="slot-wrap">
+    <div class="pickup-slot"><span>↓ PICK UP</span><i></i></div>
+    <div class="strip-clip">
+      <div class="foot-strip" id="footStrip">
+        <a class="frame f1" href="https://botchain.ai" target="_blank" rel="noopener" aria-label="BOT Chain (opens botchain.ai)">
+          <img src="images/bot-chain-black.png" alt="BOT Chain logo" width="200" height="200">
+        </a>
+        <div class="frame f2"><b>BUILT ON<br>BOT CHAIN</b><span id="footDate"></span></div>
+        <div class="frame f3"><b>CHAIN ID 677</b><span class="mono" id="footAddr">contract coming soon</span></div>
+        <div class="frame f4"><a class="btn round green small" id="footExplorer" href="https://scan.botchain.ai" target="_blank" rel="noopener">View on explorer ↗</a></div>
+      </div>
+    </div>
+  </div>
+  <p class="credits" id="credits"></p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.5/ethers.umd.min.js" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous" defer></script>
+<script src="strip.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
